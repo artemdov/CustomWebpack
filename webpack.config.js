@@ -1,0 +1,44 @@
+const path = require('path')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
+module.exports = {
+
+    output: {
+        path: path.join(__dirname, './dist'),
+        filename: 'index.bundle.js',
+    },
+
+    devServer: {
+        port: 8080,
+        watchContentBase: true,
+    },
+    plugins: [
+        new MiniCssExtractPlugin(),
+    ],
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader'
+                },
+            },
+            {
+                test: /\.(?:svg|png|png|jpg|jpeg)$/i,
+                use: {
+                    loader: 'file-loader'
+                },
+            },
+            {
+                test: /\.(scss|css)$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader'
+                ],
+            },
+
+        ],
+    }
+}
